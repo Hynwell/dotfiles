@@ -35,7 +35,7 @@ alias ddown='docker compose down'
 alias dre='docker compose up -d --force-recreate'
 alias dupd='docker compose pull && docker compose up -d'
 alias dps='docker compose ps'
-alias dlogs='docker compose logs -f --tail=100'
+# dlogs — функция в functions.zsh (принимает аргумент tail)
 
 # System
 alias top='btop'
