@@ -73,6 +73,25 @@ module_shell() {
         else
             log_ok "Default shell is already zsh"
         fi
+        # Also set zsh for root so sudo -s gets the same shell
+        if [[ "$(getent passwd root | cut -d: -f7)" != "$zsh_path" ]]; then
+            log_info "Setting zsh as root shell..."
+            sudo usermod -s "$zsh_path" root
+        fi
+    fi
+
+    # Create /root/.zshrc that sources user's config (for sudo -s)
+    if [[ ! -f /root/.zshrc ]]; then
+        log_info "Creating /root/.zshrc → sources user config..."
+        sudo tee /root/.zshrc > /dev/null <<EOF
+# Source dotfiles from $USER for sudo -s sessions
+export DOTFILES_DIR="$DOTFILES_DIR"
+export XDG_CONFIG_HOME="$HOME/.config"
+[[ -f "$HOME/.zshrc" ]] && source "$HOME/.zshrc"
+EOF
+        log_ok "Created /root/.zshrc"
+    else
+        log_ok "/root/.zshrc already exists"
     fi
 
     log_ok "Shell setup done"
