@@ -80,19 +80,19 @@ module_shell() {
         fi
     fi
 
-    # Create /root/.zshrc that sources user's config (for sudo -s)
-    if [[ ! -f /root/.zshrc ]]; then
-        log_info "Creating /root/.zshrc → sources user config..."
-        sudo tee /root/.zshrc > /dev/null <<EOF
-# Source dotfiles from $USER for sudo -s sessions
+    # Create /root/.zshrc that sources user's config (for sudo -s / sudo -i / su -)
+    # Always regenerate so path updates apply. Absolute paths point to the
+    # installing user's home so root gets plugins + fzf too.
+    log_info "Generating /root/.zshrc → sources $USER's config..."
+    sudo tee /root/.zshrc > /dev/null <<EOF
+# Auto-generated: root uses $USER's dotfiles config
 export DOTFILES_DIR="$DOTFILES_DIR"
 export XDG_CONFIG_HOME="$HOME/.config"
+export ZSH_PLUGINS="$HOME/.local/share/zsh/plugins"
+export FZF_RC="$HOME/.fzf.zsh"
 [[ -f "$HOME/.zshrc" ]] && source "$HOME/.zshrc"
 EOF
-        log_ok "Created /root/.zshrc"
-    else
-        log_ok "/root/.zshrc already exists"
-    fi
+    log_ok "Generated /root/.zshrc"
 
     log_ok "Shell setup done"
 }

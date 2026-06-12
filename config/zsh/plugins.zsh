@@ -1,6 +1,7 @@
 ## Shell plugins and tool integrations
 
-ZSH_PLUGINS="$HOME/.local/share/zsh/plugins"
+# Переопределяемо — /root/.zshrc указывает на каталоги установившего пользователя
+: "${ZSH_PLUGINS:=$HOME/.local/share/zsh/plugins}"
 
 # zsh-autosuggestions
 [[ -f "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
@@ -11,7 +12,8 @@ ZSH_PLUGINS="$HOME/.local/share/zsh/plugins"
     source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # fzf key bindings and completion
-[[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+: "${FZF_RC:=$HOME/.fzf.zsh}"
+[[ -f "$FZF_RC" ]] && source "$FZF_RC"
 
 # zoxide (smart cd)
 if command -v zoxide &>/dev/null; then

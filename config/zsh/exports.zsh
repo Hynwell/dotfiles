@@ -29,3 +29,6 @@ export BAT_THEME="Dracula"
 
 # less
 export LESS="-R --use-color"
+
+# Чтобы sudo -s и прочие инструменты использовали zsh
+export SHELL="$(command -v zsh)"
