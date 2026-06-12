@@ -1,0 +1,51 @@
+[user]
+	name  = Vladislav Vlasov
+	email = hynwellg@gmail.com
+
+[core]
+	pager      = delta
+	autocrlf   = input
+	editor     = vim
+	whitespace = trailing-space,space-before-tab
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+
+[rebase]
+	autostash = true
+
+[push]
+	default          = current
+	autoSetupRemote  = true
+
+[fetch]
+	prune = true
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	algorithm     = histogram
+	colorMoved    = default
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate    = true
+	light       = false
+	line-numbers = true
+	side-by-side = false
+
+[color]
+	ui = auto
+
+[alias]
+	st   = status -sb
+	lg   = log --oneline --graph --decorate -20
+	lga  = log --oneline --graph --decorate --all
+	undo = reset HEAD~1 --mixed
+	wip  = "!git add -A && git commit -m 'wip'"
