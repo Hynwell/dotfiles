@@ -39,6 +39,10 @@ alias dps='docker compose ps'
 alias top='btop'
 alias md='mkdir -p'
 
+## Редактор
+alias vim='nvim'
+alias vi='nvim'
+
 ## Shell
 alias reload='exec zsh'
 alias please='sudo $(fc -ln -1)'

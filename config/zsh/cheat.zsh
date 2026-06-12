@@ -58,6 +58,12 @@ cheat() {
     _crow "delta"         "diff"     "красивые git diff"                  "git diff  (авто)"
     _crow "tmux"          "screen"   "мультиплексор: Ctrl+b prefix"       "tmux new / tmux attach"
     _crow "j / just"      "make"     "запуск задач (justfile)"            "j  /  just --list"
+    _crow "nvim"          "vim"      "редактор: LSP + дерево + telescope"  "<Space>ff файлы"
+
+    printf "\n${BOLD}NVIM биндинги${NC}  ${DIM}(leader = Space)${NC}\n"
+    printf "  ${YELLOW}<Space>ff${NC}  файлы      ${YELLOW}<Space>fg${NC}  поиск текста   ${YELLOW}<Space>fb${NC}  буферы\n"
+    printf "  ${YELLOW}<Space>e${NC}   дерево     ${YELLOW}<Space>ca${NC}  code action    ${YELLOW}<Space>cf${NC}  форматировать\n"
+    printf "  ${YELLOW}gd${NC}        определение  ${YELLOW}K${NC}         документация    ${YELLOW}<Space>rn${NC}  rename\n"
 
     printf "\n${BOLD}TMUX биндинги${NC}  ${DIM}(prefix = Ctrl+b)${NC}\n"
     printf "  prefix + ${YELLOW}|${NC}   вертикальный сплит\n"

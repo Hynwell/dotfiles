@@ -5,7 +5,7 @@
 [core]
 	pager      = delta
 	autocrlf   = input
-	editor     = vim
+	editor     = nvim
 	whitespace = trailing-space,space-before-tab
 
 [init]

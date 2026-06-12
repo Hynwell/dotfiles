@@ -20,18 +20,19 @@ usage() {
 Usage: $(basename "$0") [OPTIONS]
 
 Options:
-  --all          Install everything except docker (default)
-  --minimal      Install base + shell + cli only
-  --with-docker  Include docker module
-  --module NAME  Run only a specific module (base|shell|cli|tmux|git|just|docker)
-  --no-chsh      Skip changing default shell
-  -h, --help     Show this help
+  --all            Install everything except docker/nvim (default)
+  --minimal        Install base + shell + cli only
+  --with-docker    Include docker module
+  --with-nvim      Include neovim module
+  --module NAME    Run only a specific module (base|shell|cli|tmux|git|just|docker|nvim)
+  --no-chsh        Skip changing default shell
+  -h, --help       Show this help
 
 Examples:
   ./install.sh
-  ./install.sh --with-docker
+  ./install.sh --with-docker --with-nvim
   ./install.sh --minimal
-  ./install.sh --module cli
+  ./install.sh --module nvim
 EOF
 }
 
@@ -43,6 +44,7 @@ RUN_TMUX=1
 RUN_GIT=1
 RUN_JUST=1
 RUN_DOCKER=0
+RUN_NVIM=0
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -50,15 +52,18 @@ while [[ $# -gt 0 ]]; do
             # already the default
             ;;
         --minimal)
-            RUN_TMUX=0; RUN_GIT=0; RUN_JUST=0; RUN_DOCKER=0
+            RUN_TMUX=0; RUN_GIT=0; RUN_JUST=0; RUN_DOCKER=0; RUN_NVIM=0
             ;;
         --with-docker)
             RUN_DOCKER=1
             ;;
+        --with-nvim)
+            RUN_NVIM=1
+            ;;
         --module)
             shift
             RUN_BASE=0; RUN_SHELL=0; RUN_CLI=0; RUN_TMUX=0
-            RUN_GIT=0;  RUN_JUST=0;  RUN_DOCKER=0
+            RUN_GIT=0;  RUN_JUST=0;  RUN_DOCKER=0; RUN_NVIM=0
             case "$1" in
                 base)   RUN_BASE=1   ;;
                 shell)  RUN_SHELL=1  ;;
@@ -67,9 +72,10 @@ while [[ $# -gt 0 ]]; do
                 git)    RUN_GIT=1    ;;
                 just)   RUN_JUST=1   ;;
                 docker) RUN_DOCKER=1 ;;
+                nvim)   RUN_NVIM=1   ;;
                 *)
                     log_err "Unknown module: $1"
-                    log_err "Available: base shell cli tmux git just docker"
+                    log_err "Available: base shell cli tmux git just docker nvim"
                     exit 1
                     ;;
             esac
@@ -104,6 +110,7 @@ require_debian
 [[ "$RUN_TMUX"   -eq 1 ]] && module_tmux
 [[ "$RUN_GIT"    -eq 1 ]] && module_git
 [[ "$RUN_JUST"   -eq 1 ]] && module_just
+[[ "$RUN_NVIM"   -eq 1 ]] && module_nvim
 [[ "$RUN_DOCKER" -eq 1 ]] && module_docker
 
 printf "\n${BOLD}${GREEN}✓ All done! Restart your shell or run: exec zsh${NC}\n"
