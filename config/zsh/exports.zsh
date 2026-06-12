@@ -1,7 +1,12 @@
 ## Exports and environment variables
 
-export EDITOR="nvim"
-export VISUAL="nvim"
+if command -v nvim &>/dev/null; then
+    export EDITOR="nvim"
+    export VISUAL="nvim"
+else
+    export EDITOR="vim"
+    export VISUAL="vim"
+fi
 
 # History
 export HISTFILE="$HOME/.zsh_history"

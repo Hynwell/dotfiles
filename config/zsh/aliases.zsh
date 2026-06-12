@@ -40,8 +40,10 @@ alias top='btop'
 alias md='mkdir -p'
 
 ## Редактор
-alias vim='nvim'
-alias vi='nvim'
+if command -v nvim &>/dev/null; then
+    alias vim='nvim'
+    alias vi='nvim'
+fi
 
 ## Shell
 alias reload='exec zsh'
