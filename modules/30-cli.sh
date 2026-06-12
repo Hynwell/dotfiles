@@ -24,8 +24,31 @@ module_cli() {
         fd-find \
         ripgrep \
         zoxide \
-        btop \
-        tldr \
+        btop
+
+    # tldr — tealdeer binary (tldr not in apt on all distros)
+    if ! has_cmd tldr; then
+        log_info "Installing tealdeer (tldr)..."
+        local arch
+        arch="$(dpkg --print-architecture)"
+        local tl_arch
+        case "$arch" in
+            amd64)  tl_arch="x86_64-musl" ;;
+            arm64)  tl_arch="aarch64-musl" ;;
+            armhf)  tl_arch="arm-musleabihf" ;;
+            *)      log_warn "Unsupported arch for tealdeer: $arch"; tl_arch="" ;;
+        esac
+        if [[ -n "$tl_arch" ]]; then
+            local local_bin="$HOME/.local/bin"
+            mkdir -p "$local_bin"
+            curl -fsSL "https://github.com/dbrgn/tealdeer/releases/latest/download/tealdeer-linux-${tl_arch}" \
+                -o "$local_bin/tldr"
+            chmod +x "$local_bin/tldr"
+            log_ok "tealdeer installed → ~/.local/bin/tldr"
+        fi
+    else
+        log_ok "tldr already installed"
+    fi
 
     # delta (git-delta) — not always in apt, install from GitHub releases
     if ! has_cmd delta; then
