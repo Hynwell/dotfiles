@@ -16,7 +16,7 @@ require("lazy").setup({
         { import = "plugins" },
     },
     defaults = { lazy = true },
-    install  = { colorscheme = { "kanagawa-dragon", "habamax" } },
+    install  = { colorscheme = { "tokyonight-night", "habamax" } },
     checker  = { enabled = false },
     change_detection = { notify = false },
     performance = {

@@ -40,8 +40,12 @@ module_nvim() {
 
     # Warm up plugins headless (non-fatal)
     if has_cmd nvim; then
+        # Clean leftover treesitter build dirs (fix interrupted compiles)
+        rm -rf "$HOME/.local/share/nvim/lazy/nvim-treesitter/"tree-sitter-*-tmp 2>/dev/null || true
+
         log_info "Bootstrapping Neovim plugins (headless)..."
         nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
+        nvim --headless "+TSUpdate" +qa 2>/dev/null || true
         log_ok "Plugins ready"
     fi
 
