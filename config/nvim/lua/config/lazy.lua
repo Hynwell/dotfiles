@@ -16,7 +16,7 @@ require("lazy").setup({
         { import = "plugins" },
     },
     defaults = { lazy = true },
-    install  = { colorscheme = { "catppuccin", "habamax" } },
+    install  = { colorscheme = { "kanagawa-dragon", "habamax" } },
     checker  = { enabled = false },
     change_detection = { notify = false },
     performance = {

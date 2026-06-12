@@ -1,0 +1,5 @@
+# Backups created by symlink helper
+*.bak
+
+# OS
+.DS_Store

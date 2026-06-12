@@ -113,4 +113,5 @@ require_debian
 [[ "$RUN_NVIM"   -eq 1 ]] && module_nvim
 [[ "$RUN_DOCKER" -eq 1 ]] && module_docker
 
-printf "\n${BOLD}${GREEN}✓ All done! Restart your shell or run: exec zsh${NC}\n"
+printf "\n${BOLD}${GREEN}✓ All done!${NC}\n"
+printf "${YELLOW}  → Запусти чтобы применить изменения: ${BOLD}exec zsh${NC}\n\n"

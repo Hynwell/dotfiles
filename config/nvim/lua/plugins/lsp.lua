@@ -26,47 +26,19 @@ return {
         end,
     },
 
-    -- Bridge mason → lspconfig
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = { "williamboman/mason.nvim" },
-        opts = {
-            ensure_installed  = { "lua_ls", "marksman" },
-            automatic_installation = false,
-        },
-    },
-
-    -- LSP config
+    -- LSP config (native vim.lsp API, nvim 0.11+)
     {
         "neovim/nvim-lspconfig",
         event        = { "BufReadPost", "BufNewFile" },
-        dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-            "hrsh7th/cmp-nvim-lsp",
-        },
+        dependencies = { "hrsh7th/cmp-nvim-lsp" },
         config = function()
-            local lspconfig    = require("lspconfig")
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            local caps = require("cmp_nvim_lsp").default_capabilities()
+            vim.lsp.config("*", { capabilities = caps })
 
-            local on_attach = function(_, buffer)
-                local map = function(keys, func, desc)
-                    vim.keymap.set("n", keys, func, { buffer = buffer, desc = "LSP: " .. desc })
-                end
-                map("gd",         vim.lsp.buf.definition,      "Go to definition")
-                map("gD",         vim.lsp.buf.declaration,     "Go to declaration")
-                map("gr",         vim.lsp.buf.references,      "References")
-                map("K",          vim.lsp.buf.hover,           "Hover docs")
-                map("<leader>ca", vim.lsp.buf.code_action,     "Code action")
-                map("<leader>rn", vim.lsp.buf.rename,          "Rename")
-            end
-
-            -- lua_ls with neovim globals
-            lspconfig.lua_ls.setup({
-                capabilities = capabilities,
-                on_attach    = on_attach,
+            vim.lsp.config("lua_ls", {
                 settings = {
                     Lua = {
-                        runtime  = { version = "LuaJIT" },
+                        runtime   = { version = "LuaJIT" },
                         workspace = {
                             checkThirdParty = false,
                             library = { vim.env.VIMRUNTIME },
@@ -76,11 +48,22 @@ return {
                     },
                 },
             })
+            vim.lsp.config("marksman", {})
 
-            -- marksman (markdown)
-            lspconfig.marksman.setup({
-                capabilities = capabilities,
-                on_attach    = on_attach,
+            vim.lsp.enable({ "lua_ls", "marksman" })
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(ev)
+                    local map = function(keys, fn, desc)
+                        vim.keymap.set("n", keys, fn, { buffer = ev.buf, desc = "LSP: " .. desc })
+                    end
+                    map("gd",         vim.lsp.buf.definition,  "Go to definition")
+                    map("gD",         vim.lsp.buf.declaration, "Go to declaration")
+                    map("gr",         vim.lsp.buf.references,  "References")
+                    map("K",          vim.lsp.buf.hover,       "Hover docs")
+                    map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+                    map("<leader>rn", vim.lsp.buf.rename,      "Rename")
+                end,
             })
         end,
     },

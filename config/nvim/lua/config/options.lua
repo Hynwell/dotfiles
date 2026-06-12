@@ -1,8 +1,8 @@
 local opt = vim.opt
 
--- Line numbers
-opt.number         = true
-opt.relativenumber = true
+-- Line numbers (off — позиция видна в статусбаре lualine)
+opt.number         = false
+opt.relativenumber = false
 
 -- Indentation
 opt.tabstop        = 2
