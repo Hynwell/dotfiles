@@ -69,7 +69,7 @@ module_shell() {
         zsh_path="$(which zsh)"
         if [[ "$SHELL" != "$zsh_path" ]]; then
             log_info "Changing default shell to zsh..."
-            chsh -s "$zsh_path" "$USER"
+            sudo usermod -s "$zsh_path" "$USER"
         else
             log_ok "Default shell is already zsh"
         fi
