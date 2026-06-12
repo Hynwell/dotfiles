@@ -38,8 +38,13 @@ module_shell() {
     # fzf (shell integration)
     if ! has_cmd fzf; then
         log_info "Installing fzf..."
-        git clone --depth=1 https://github.com/junegunn/fzf.git ~/.fzf
-        ~/.fzf/install --key-bindings --completion --no-update-rc
+        if [[ ! -d "$HOME/.fzf" ]]; then
+            git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+        else
+            log_info "~/.fzf dir exists, updating..."
+            git -C "$HOME/.fzf" pull --rebase
+        fi
+        "$HOME/.fzf/install" --key-bindings --completion --no-update-rc
     else
         log_ok "fzf already installed"
     fi
