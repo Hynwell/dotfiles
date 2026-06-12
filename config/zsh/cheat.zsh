@@ -25,7 +25,7 @@ cheat() {
     _crow "btop"          "top/htop" "монитор CPU/RAM/сети"              "btop"
     _crow "tldr"          "man"     "краткие примеры по командам"        "tldr tar"
     _crow "delta"         "diff"    "красивые git diff"                  "git diff  (авто)"
-    _crow "tmux"          "screen"  "мультиплексор: Ctrl+b prefix"       "tmux / j (в /opt/docker)"
+    _crow "tmux"          "screen"  "мультиплексор: Ctrl+b prefix"       "tmux new / tmux attach"
     _crow "j / just"      "make"    "запуск задач (justfile)"            "j  /  just --list"
 
     printf "\n${BOLD}TMUX биндинги${NC}  ${DIM}(prefix = Ctrl+b)${NC}\n"

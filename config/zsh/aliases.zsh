@@ -47,3 +47,4 @@ alias please='sudo $(fc -ln -1)'
 
 # dotfiles quick edit
 alias dotfiles='cd "${DOTFILES_DIR:-$HOME/.dotfiles}"'
+alias dotfiles-reload='dotfiles && reload'
