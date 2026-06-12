@@ -1,11 +1,12 @@
-## Utility functions
+## Functions
 
-# mkdir + cd in one step
+## Файлы
+# mkdir + cd в один шаг:  mkcd mydir
 mkcd() {
     mkdir -p "$1" && builtin cd "$1"
 }
 
-# Extract any archive
+# распаковать любой архив:  extract file.tar.gz
 extract() {
     if [[ -f "$1" ]]; then
         case "$1" in
@@ -24,32 +25,35 @@ extract() {
     fi
 }
 
-# Show PATH entries one per line
+## Система
+# показать PATH построчно
 path() {
     echo "$PATH" | tr ':' '\n'
 }
 
-# docker compose logs с кастомным tail:  dlogs 50
+## Docker Compose
+# логи с кастомным tail:  dlogs 50
 dlogs() {
     docker compose logs -f --tail="${1:-100}"
 }
 
-# docker compose exec shell:  dsh app
+# exec shell внутри сервиса:  dsh app
 dsh() {
     docker compose exec "$1" sh
 }
 
-# git: первый коммит + пуш:  ship "msg"
+## Git
+# первый коммит + пуш:  ship "msg"
 ship() {
     git add -A && git commit -m "${1:-initial commit}" && git push -u origin HEAD
 }
 
-# git: быстрый коммит всего:  save "msg"
+# быстрый коммит всего:  save "msg"
 save() {
     git add -A && git commit -m "$1"
 }
 
-# git: pull --rebase --autostash
+# pull --rebase --autostash
 gsync() {
     git pull --rebase --autostash
 }
