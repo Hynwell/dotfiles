@@ -40,7 +40,10 @@ module_nvim() {
 
     # Warm up plugins headless (non-fatal)
     if has_cmd nvim; then
-        # Clean leftover treesitter build dirs (fix interrupted compiles)
+        # Clean stale treesitter state:
+        #  - parsers installed by the old `main` branch (incompatible ABI)
+        #  - leftover build dirs from interrupted compiles
+        rm -rf "$HOME/.local/share/nvim/site/parser" 2>/dev/null || true
         rm -rf "$HOME/.local/share/nvim/lazy/nvim-treesitter/"tree-sitter-*-tmp 2>/dev/null || true
 
         log_info "Bootstrapping Neovim plugins (headless)..."
