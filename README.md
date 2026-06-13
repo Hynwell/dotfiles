@@ -44,6 +44,7 @@ bash -c "$(curl -fsSL ...bootstrap.sh)" -- --minimal
 | Флаг | Что ставит |
 |------|-----------|
 | `--with-docker` | docker-ce + compose plugin, добавляет юзера в группу docker |
+| `--with-nvim` | nvim + плагины |
 | `--minimal` | только base + shell + cli (без tmux/git/just) |
 
 ---
@@ -92,37 +93,6 @@ dotfiles/
 
 ---
 
-## Алиасы (ключевые)
+Полный список алиасов: команда `alias`. Справка по инструментам: `cheat`.
 
-| Алиас | Команда |
-|-------|---------|
-| `ll` | `eza -l --icons --git` |
-| `la` | `eza -la --icons --git` |
-| `lt` | `eza --tree --level=2` |
-| `cat` | `bat --paging=never` |
-| `grep` | `rg` |
-| `cd` | `z` (zoxide) |
-| `g` | `git` |
-| `j` | `just` |
-| `top` | `btop` |
-| `..` / `...` | навигация вверх |
-| `reload` | `exec zsh` |
-| `please` | `sudo !!` |
-| `dotfiles` | `cd ~/.dotfiles` |
-
-Полный список: запусти `alias`. Справка по инструментам: `cheat`.
-
----
-
-## tmux
-
-Prefix: **Ctrl+b**
-
-| Биндинг | Действие |
-|---------|---------|
-| `prefix + \|` | вертикальный сплит |
-| `prefix + -` | горизонтальный сплит |
-| `prefix + r` | перезагрузить конфиг |
-| `Alt + ←→↑↓` | переключение между панелями |
-| колёсико мыши | скролл истории |
 
