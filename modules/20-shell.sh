@@ -53,11 +53,15 @@ module_shell() {
     local zsh_config_dir="$DOTFILES_DIR/config/zsh"
     symlink "$zsh_config_dir/zshrc"  "$HOME/.zshrc"
     mkdir -p "$HOME/.config/zsh"
-    symlink "$zsh_config_dir/aliases.zsh"   "$HOME/.config/zsh/aliases.zsh"
-    symlink "$zsh_config_dir/exports.zsh"   "$HOME/.config/zsh/exports.zsh"
-    symlink "$zsh_config_dir/functions.zsh" "$HOME/.config/zsh/functions.zsh"
-    symlink "$zsh_config_dir/plugins.zsh"   "$HOME/.config/zsh/plugins.zsh"
-    symlink "$zsh_config_dir/cheat.zsh"     "$HOME/.config/zsh/cheat.zsh"
+    # Drop stale symlinks from the old aliases/functions split
+    rm -f "$HOME/.config/zsh/aliases.zsh" "$HOME/.config/zsh/functions.zsh"
+    symlink "$zsh_config_dir/exports.zsh" "$HOME/.config/zsh/exports.zsh"
+    symlink "$zsh_config_dir/files.zsh"   "$HOME/.config/zsh/files.zsh"
+    symlink "$zsh_config_dir/git.zsh"     "$HOME/.config/zsh/git.zsh"
+    symlink "$zsh_config_dir/docker.zsh"  "$HOME/.config/zsh/docker.zsh"
+    symlink "$zsh_config_dir/system.zsh"  "$HOME/.config/zsh/system.zsh"
+    symlink "$zsh_config_dir/plugins.zsh" "$HOME/.config/zsh/plugins.zsh"
+    symlink "$zsh_config_dir/cheat.zsh"   "$HOME/.config/zsh/cheat.zsh"
 
     # Starship config
     mkdir -p "$HOME/.config/starship"
@@ -90,6 +94,9 @@ export DOTFILES_DIR="$DOTFILES_DIR"
 export XDG_CONFIG_HOME="$HOME/.config"
 export ZSH_PLUGINS="$HOME/.local/share/zsh/plugins"
 export FZF_RC="$HOME/.fzf.zsh"
+# Reach the installing user's local tools (belt-and-suspenders; core CLI
+# tools also live in /usr/local/bin so root works regardless of this).
+export PATH="$HOME/.local/bin:\$PATH"
 [[ -f "$HOME/.zshrc" ]] && source "$HOME/.zshrc"
 EOF
     log_ok "Generated /root/.zshrc"

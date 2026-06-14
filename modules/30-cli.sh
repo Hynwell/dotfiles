@@ -39,12 +39,11 @@ module_cli() {
             *)      log_warn "Unsupported arch for tealdeer: $arch"; tl_arch="" ;;
         esac
         if [[ -n "$tl_arch" ]]; then
-            local local_bin="$HOME/.local/bin"
-            mkdir -p "$local_bin"
             curl -fsSL "https://github.com/dbrgn/tealdeer/releases/latest/download/tealdeer-linux-${tl_arch}" \
-                -o "$local_bin/tldr"
-            chmod +x "$local_bin/tldr"
-            log_ok "tealdeer installed → ~/.local/bin/tldr"
+                -o /tmp/tldr
+            sudo install -m 0755 /tmp/tldr /usr/local/bin/tldr
+            rm -f /tmp/tldr
+            log_ok "tealdeer installed → /usr/local/bin/tldr"
         fi
     else
         log_ok "tldr already installed"
@@ -65,19 +64,17 @@ module_cli() {
         log_ok "delta already installed"
     fi
 
-    # On Debian/Ubuntu bat binary is called batcat, fd binary is fdfind
-    # Create ~/.local/bin wrappers so aliases and scripts can just use bat/fd
-    local local_bin="$HOME/.local/bin"
-    mkdir -p "$local_bin"
-
-    if has_cmd batcat && [[ ! -x "$local_bin/bat" ]]; then
-        ln -sf "$(which batcat)" "$local_bin/bat"
-        log_ok "Linked batcat → ~/.local/bin/bat"
+    # On Debian/Ubuntu bat binary is called batcat, fd binary is fdfind.
+    # Create system-wide wrappers in /usr/local/bin so aliases work for BOTH
+    # the user and root (root's PATH does not include the user's ~/.local/bin).
+    if has_cmd batcat && [[ "$(readlink -f /usr/local/bin/bat 2>/dev/null)" != "$(command -v batcat)" ]]; then
+        sudo ln -sfn "$(command -v batcat)" /usr/local/bin/bat
+        log_ok "Linked batcat → /usr/local/bin/bat"
     fi
 
-    if has_cmd fdfind && [[ ! -x "$local_bin/fd" ]]; then
-        ln -sf "$(which fdfind)" "$local_bin/fd"
-        log_ok "Linked fdfind → ~/.local/bin/fd"
+    if has_cmd fdfind && [[ "$(readlink -f /usr/local/bin/fd 2>/dev/null)" != "$(command -v fdfind)" ]]; then
+        sudo ln -sfn "$(command -v fdfind)" /usr/local/bin/fd
+        log_ok "Linked fdfind → /usr/local/bin/fd"
     fi
 
     log_ok "Modern CLI tools done"

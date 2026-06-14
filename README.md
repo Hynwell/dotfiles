@@ -20,6 +20,28 @@ bash -c "$(curl -fsSL ...bootstrap.sh)" -- --minimal
 
 ---
 
+## Шрифты / иконки
+
+Иконки в `ls` (eza) и символы в промпте Starship — это глифы **Nerd Font**.
+Их рисует шрифт **терминала-клиента**, а не Linux-машина. При заходе по SSH
+(например, с Windows) установка шрифта внутри Linux ничего не даст — шрифт
+нужен в самом терминале.
+
+**Windows Terminal:**
+1. Поставить любой Nerd Font, напр.:
+   ```powershell
+   winget install --id=DEVCOM.JetBrainsMonoNerdFont
+   ```
+   (или скачать с [nerdfonts.com](https://www.nerdfonts.com/) и установить).
+2. Settings → нужный профиль → **Appearance → Font face** → `JetBrainsMono Nerd Font`.
+
+**macOS (iTerm2 / Ghostty):** аналогично — установить Nerd Font
+(`brew install --cask font-jetbrains-mono-nerd-font`) и выбрать его в настройках терминала.
+
+Если иконки выглядят как пустые квадраты `□` — шрифт в терминале не Nerd Font.
+
+---
+
 ## Что устанавливается
 
 ### Базовый профиль (`--all`, по умолчанию)
@@ -63,6 +85,7 @@ dotfiles/
 │   ├── 20-shell.sh      # zsh + starship + плагины
 │   ├── 30-cli.sh        # современные CLI-утилиты
 │   ├── 40-tmux.sh       # tmux
+│   ├── 45-nvim.sh       # neovim (→ /opt/nvim)
 │   ├── 50-git.sh        # git + delta
 │   ├── 60-just.sh       # just
 │   └── 90-docker.sh     # docker (опц.)

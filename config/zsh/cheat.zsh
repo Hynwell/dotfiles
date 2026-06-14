@@ -1,6 +1,6 @@
 ## cheat / dothelp — quick reference for installed tools
 
-# Parse aliases.zsh / functions.zsh: ## Group headers + alias/function lines
+# Parse a zsh config file: ## Group headers + alias/function lines
 _cheat_parse_file() {
     local file="$1"
     [[ -f "$file" ]] || return
@@ -72,8 +72,11 @@ cheat() {
     printf "  ${YELLOW}Колёсико мыши${NC} — скролл истории\n"
 
     printf "\n${BOLD}${CYAN}АЛИАСЫ И ФУНКЦИИ${NC}\n"
-    _cheat_parse_file "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliases.zsh"
-    _cheat_parse_file "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions.zsh"
+    local zsh_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+    _cheat_parse_file "$zsh_dir/files.zsh"
+    _cheat_parse_file "$zsh_dir/git.zsh"
+    _cheat_parse_file "$zsh_dir/docker.zsh"
+    _cheat_parse_file "$zsh_dir/system.zsh"
 
     printf "\n${DIM}Эта справка: cheat  или  dothelp${NC}\n\n"
 }

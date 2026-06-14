@@ -31,9 +31,11 @@ module_nvim() {
         curl -fsSL \
             "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/${tarball}" \
             -o "$tmp_dir/${tarball}"
-        sudo rm -rf "/opt/nvim-linux-${nvim_arch}"
+        # Clean both the new target and the old default-named dirs from tarball
+        sudo rm -rf /opt/nvim "/opt/nvim-linux-${nvim_arch}"
         sudo tar -C /opt -xzf "$tmp_dir/${tarball}"
-        sudo ln -sfn "/opt/nvim-linux-${nvim_arch}/bin/nvim" /usr/local/bin/nvim
+        sudo mv "/opt/nvim-linux-${nvim_arch}" /opt/nvim
+        sudo ln -sfn /opt/nvim/bin/nvim /usr/local/bin/nvim
         rm -rf "$tmp_dir"
         clean=1   # version changed → wipe stale plugins/parsers
         log_ok "Neovim installed: $(nvim --version | head -1)"
