@@ -71,7 +71,10 @@ module_shell() {
     if [[ "$NO_CHSH" -eq 0 ]]; then
         local zsh_path
         zsh_path="$(which zsh)"
-        if [[ "$SHELL" != "$zsh_path" ]]; then
+        # Compare against the real login shell in /etc/passwd, NOT $SHELL:
+        # exports.zsh exports SHELL=zsh at runtime, so $SHELL lies once any
+        # zsh has been sourced, and chsh would be wrongly skipped.
+        if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$zsh_path" ]]; then
             log_info "Changing default shell to zsh..."
             sudo usermod -s "$zsh_path" "$USER"
         else
